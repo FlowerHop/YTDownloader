@@ -12,6 +12,7 @@ var app = express();
 
 app.set('port', process.env.PORT || 1338);
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', express.static('public'));
 
 // Additional middleware which will set headers that we need on each request.
@@ -59,6 +60,12 @@ app.get('/video/:url', function (req, res) {
   }).then(function () {
     res.end();
   });
+});
+
+app.post('/video', function (req, res) {
+  var url = req.body.url;
+  console.log(url);
+  res.end();
 });
 
 app.listen(app.get('port'), function () {

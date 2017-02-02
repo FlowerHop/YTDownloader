@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import request from 'request';
 
 export default class FormBox extends React.Component {
     constructor (props) {
@@ -32,7 +33,20 @@ export default class FormBox extends React.Component {
     } 
 
     handleSubmit () { 
-      console.log (this.state);
+      let api;
+
+      if (this.state.list) {
+        api = 'http://localhost:1338/playlist'
+      } else {
+      	api = 'http://localhost:1338/video'
+      }
+
+      request.post (api, {form: {url: this.state.url}}, (err, httpResponse, body) => {
+      	if (err) {
+      	  return console.log ('Error: ' + err);
+      	}
+      	console.log ('Success: ' + body);
+      });
     } 
 
     render () {
