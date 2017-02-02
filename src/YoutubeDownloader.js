@@ -14,6 +14,7 @@ class YoutubeDownloader {
 	downloadVideo (url) {
 		return new Promise ((resolve, reject) => {
 		  let size = 0;
+		  let pos = 0;
 		  let video = ytdl (url);
 		  let filePath;
 
@@ -22,7 +23,7 @@ class YoutubeDownloader {
           });
 
 		  video.on ("info", (info) => {
-		    let filename = getValidFilename (info.title);
+		    let filename = this.getValidFilename (info.title);
 
 		    if (fs.existsSync (filename + '.mp4')) {
 		      console.log (filename + ' exists');

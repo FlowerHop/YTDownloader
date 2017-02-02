@@ -65,7 +65,13 @@ app.get('/video/:url', function (req, res) {
 app.post('/video', function (req, res) {
   var url = req.body.url;
   console.log(url);
-  res.end();
+  ytlDownloader.downloadVideo(url).catch(function (error) {
+    console.log(error);
+  }).then(function (filePath) {
+    res.end(filePath);
+  }).then(function () {
+    // res.end ();
+  });
 });
 
 app.listen(app.get('port'), function () {

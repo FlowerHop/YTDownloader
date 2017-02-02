@@ -21,8 +21,11 @@ var YoutubeDownloader = function () {
 	}, {
 		key: 'downloadVideo',
 		value: function downloadVideo(url) {
+			var _this = this;
+
 			return new Promise(function (resolve, reject) {
 				var size = 0;
+				var pos = 0;
 				var video = ytdl(url);
 				var filePath = void 0;
 
@@ -31,7 +34,7 @@ var YoutubeDownloader = function () {
 				});
 
 				video.on("info", function (info) {
-					var filename = getValidFilename(info.title);
+					var filename = _this.getValidFilename(info.title);
 
 					if (fs.existsSync(filename + '.mp4')) {
 						console.log(filename + ' exists');
