@@ -74,12 +74,56 @@ app.post ('/video', (req, res) => {
     console.log (error);
   })
   .then ((filePath) => {
-    res.end (filePath);
+    // send to client
+    // console.log (filePath);
+    // var options = {
+    //   root: __dirname + '/',
+    //   dotfiles: 'deny',
+    //   headers: {
+    //       'x-timestamp': Date.now(),
+    //       'x-sent': true
+    //   }
+    // };
+
+    // res.sendFile(filePath, options, (err) => {
+    //   if (err) {
+    //     throw (err);
+    //   }
+    //   else {
+    //     console.log('Sent:', filePath);
+    //   }
+    // });
+    res.download (__dirname + '/' + filePath);
+    // remove machnism
   })
-  .then (() => {
-    // res.end ();
-  });
+  .catch ((error) => {
+    res.send ('Download error: ' + error);
+    console.log (error);
+  })
   
+});
+
+app.get ('/file/:filePath', (req, res) => {
+  let filePath = req.params.filePath;
+  // var options = {
+  //   root: __dirname + '/',
+  //   dotfiles: 'deny',
+  //   headers: {
+  //       'x-timestamp': Date.now(),
+  //       'x-sent': true
+  //   }
+  // };
+
+  // res.sendFile(filePath, options, (err) => {
+  //   if (err) {
+  //     throw (err);
+  //   }
+  //   else {
+  //     console.log('Sent:', filePath);
+  //   }
+  // });
+  res.download (__dirname + '/' + filePath);
+
 });
 
 app.listen (app.get ('port'), () => {

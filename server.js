@@ -68,10 +68,53 @@ app.post('/video', function (req, res) {
   ytlDownloader.downloadVideo(url).catch(function (error) {
     console.log(error);
   }).then(function (filePath) {
-    res.end(filePath);
-  }).then(function () {
-    // res.end ();
+    // send to client
+    // console.log (filePath);
+    // var options = {
+    //   root: __dirname + '/',
+    //   dotfiles: 'deny',
+    //   headers: {
+    //       'x-timestamp': Date.now(),
+    //       'x-sent': true
+    //   }
+    // };
+
+    // res.sendFile(filePath, options, (err) => {
+    //   if (err) {
+    //     throw (err);
+    //   }
+    //   else {
+    //     console.log('Sent:', filePath);
+    //   }
+    // });
+    res.download(__dirname + '/' + filePath);
+    // remove machnism
+  }).catch(function (error) {
+    res.send('Download error: ' + error);
+    console.log(error);
   });
+});
+
+app.get('/file/:filePath', function (req, res) {
+  var filePath = req.params.filePath;
+  // var options = {
+  //   root: __dirname + '/',
+  //   dotfiles: 'deny',
+  //   headers: {
+  //       'x-timestamp': Date.now(),
+  //       'x-sent': true
+  //   }
+  // };
+
+  // res.sendFile(filePath, options, (err) => {
+  //   if (err) {
+  //     throw (err);
+  //   }
+  //   else {
+  //     console.log('Sent:', filePath);
+  //   }
+  // });
+  res.download(__dirname + '/' + filePath);
 });
 
 app.listen(app.get('port'), function () {

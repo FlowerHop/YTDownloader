@@ -35,13 +35,11 @@ var YoutubeDownloader = function () {
 
 				video.on("info", function (info) {
 					var filename = _this.getValidFilename(info.title);
-
+					filePath = filename + '.mp4';
 					if (fs.existsSync(filename + '.mp4')) {
 						console.log(filename + ' exists');
 						return;
 					}
-
-					filePath = filename + '.mp4';
 
 					var output = path.join(__dirname + '/', filename + '.mp4');
 					video.pipe(fs.createWriteStream(output));

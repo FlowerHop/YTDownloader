@@ -24,14 +24,12 @@ class YoutubeDownloader {
 
 		  video.on ("info", (info) => {
 		    let filename = this.getValidFilename (info.title);
-
+            filePath = filename + '.mp4';
 		    if (fs.existsSync (filename + '.mp4')) {
 		      console.log (filename + ' exists');
 		      return;
 		    }
-
-            filePath = filename + '.mp4';
-
+            
 		    let output = path.join (__dirname + '/', filename + '.mp4');
 		    video.pipe (fs.createWriteStream (output));
 		  });
