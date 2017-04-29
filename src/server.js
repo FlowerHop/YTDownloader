@@ -44,7 +44,7 @@ app.get ('/video/:url',  (req, res) => {
           'x-sent': true
       }
     };
-
+    
     res.sendFile(filePath, options, (err) => {
       if (err) {
         throw (err);
@@ -68,14 +68,12 @@ app.get ('/video/:url',  (req, res) => {
 
 app.post ('/video', (req, res) => {
   let url = req.body.url;
-  console.log (url);
   ytlDownloader.downloadVideo (url)
   .catch ((error) => {
     console.log (error);
   })
   .then ((filePath) => {
     // send to client
-    // console.log (filePath);
     // var options = {
     //   root: __dirname + '/',
     //   dotfiles: 'deny',
@@ -93,7 +91,8 @@ app.post ('/video', (req, res) => {
     //     console.log('Sent:', filePath);
     //   }
     // });
-    res.download (__dirname + '/' + filePath);
+    // res.download (__dirname + '/' + filePath);
+    res.send (filePath);
     // remove machnism
   })
   .catch ((error) => {
@@ -122,6 +121,7 @@ app.get ('/file/:filePath', (req, res) => {
   //     console.log('Sent:', filePath);
   //   }
   // });
+  console.log ('get file op');
   res.download (__dirname + '/' + filePath);
 
 });

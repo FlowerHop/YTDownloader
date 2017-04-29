@@ -1,21 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import FormBox from './FormBox.js';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider' 
-// import getMuiTheme from 'material-ui/styles/getMuiTheme' import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme' const lightMuiTheme = getMuiTheme(lightBaseTheme); 
-injectTapEventPlugin ();
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import FormBox from './FormBox.js';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider' 
+// // import getMuiTheme from 'material-ui/styles/getMuiTheme' import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme' const lightMuiTheme = getMuiTheme(lightBaseTheme); 
+// injectTapEventPlugin ();
 
-class App extends React.Component {
-    constructor (props) {
-      super (props);
-    }
-    render() {
-      return (
-        <MuiThemeProvider>
-        <FormBox/>
-        </MuiThemeProvider>
-      );
-    }
- }
-ReactDOM.render (<App />, document.getElementById ('app'));
+// class App extends React.Component {
+//     constructor (props) {
+//       super (props);
+//     }
+//     render() {
+//       return (
+//         <MuiThemeProvider>
+//         <FormBox/>
+//         </MuiThemeProvider>
+//       );
+//     }
+//  }
+// ReactDOM.render (<App />, document.getElementById ('app'));
+
+// console.log (ytdl ('https://www.youtube.com/watch?v=MCGKpsOXliM'));
+$('#submit').click (function () {
+  let url = $('#ytURL').val ();
+  console.log (url);
+  $.ajax({
+    type: "POST",
+    url: 'http://localhost:1338/video',
+    data: {url: url},
+    success: (fileName) => {
+      let str = "<li><a href='http://localhost:1338/file/" + fileName + "'>" + fileName + "</a></li>";
+      $('#dlList').append (str);
+    },
+    dataType: 'text'
+  });
+});
+

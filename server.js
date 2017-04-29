@@ -64,12 +64,10 @@ app.get('/video/:url', function (req, res) {
 
 app.post('/video', function (req, res) {
   var url = req.body.url;
-  console.log(url);
   ytlDownloader.downloadVideo(url).catch(function (error) {
     console.log(error);
   }).then(function (filePath) {
     // send to client
-    // console.log (filePath);
     // var options = {
     //   root: __dirname + '/',
     //   dotfiles: 'deny',
@@ -87,7 +85,8 @@ app.post('/video', function (req, res) {
     //     console.log('Sent:', filePath);
     //   }
     // });
-    res.download(__dirname + '/' + filePath);
+    // res.download (__dirname + '/' + filePath);
+    res.send(filePath);
     // remove machnism
   }).catch(function (error) {
     res.send('Download error: ' + error);
@@ -114,6 +113,7 @@ app.get('/file/:filePath', function (req, res) {
   //     console.log('Sent:', filePath);
   //   }
   // });
+  console.log('get file op');
   res.download(__dirname + '/' + filePath);
 });
 

@@ -36,16 +36,19 @@ export default class FormBox extends React.Component {
       let api;
 
       if (this.state.list) {
-        api = 'http://localhost:1338/playlist'
+        api = 'http://localhost:1338/playlist';
       } else {
-      	api = 'http://localhost:1338/video'
+      	api = 'http://localhost:1338/video';
       }
 
       request.post (api, {form: {url: this.state.url}}, (err, httpResponse, body) => {
-      	if (err) {
-      	  return console.log ('Error: ' + err);
+        if (err) {
+      	  console.log ('Error: ' + err);
+          return;
       	}
       	console.log ('Success: ' + body);
+        ReactDOM.findDOMNode (this.refs.download_link).href = "http:localhost:1338/file/" + body ;
+        ReactDOM.findDOMNode (this.refs.download_link).text = 'Download';
       });
     } 
 
@@ -70,6 +73,7 @@ export default class FormBox extends React.Component {
             label="Download"
             onClick={this.handleSubmit}
           />
+          <a ref="download_link" download></a>
         </div>
       );
     }
