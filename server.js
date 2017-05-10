@@ -8,6 +8,7 @@ var queryString = require('querystring');
 var request = require('request');
 var ytlDownloader = require('./YoutubeDownloader.js');
 
+var staticFiles = {};
 var app = express();
 
 app.set('port', process.env.PORT || 1338);
@@ -66,7 +67,7 @@ app.post('/video', function (req, res) {
   var url = req.body.url;
   ytlDownloader.downloadVideo(url).catch(function (error) {
     console.log(error);
-  }).then(function (filePath) {
+  }).then(function (fileName) {
     // send to client
     // var options = {
     //   root: __dirname + '/',
@@ -86,7 +87,8 @@ app.post('/video', function (req, res) {
     //   }
     // });
     // res.download (__dirname + '/' + filePath);
-    res.send(filePath);
+    staticFiles[fileName] = new Date().getHours();
+    res.send(fileName);
     // remove machnism
   }).catch(function (error) {
     res.send('Download error: ' + error);
@@ -94,8 +96,8 @@ app.post('/video', function (req, res) {
   });
 });
 
-app.get('/file/:filePath', function (req, res) {
-  var filePath = req.params.filePath;
+app.get('/file/:fileName', function (req, res) {
+  var fileName = req.params.fileName;
   // var options = {
   //   root: __dirname + '/',
   //   dotfiles: 'deny',
@@ -114,9 +116,22 @@ app.get('/file/:filePath', function (req, res) {
   //   }
   // });
   console.log('get file op');
-  res.download(__dirname + '/' + filePath);
+  res.download(__dirname + '/' + fileName);
 });
 
 app.listen(app.get('port'), function () {
   console.log('Ready on port: ' + app.get('port'));
+  setInterval(function () {
+    for (var k in staticFiles) {
+      if (new Date().getHours() - staticFiles[k] >= 2) {
+        fs.unlink(__dirname + '/' + k, function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('remove ' + fileName);
+          }
+        });
+      }
+    }
+  }, 5000);
 });

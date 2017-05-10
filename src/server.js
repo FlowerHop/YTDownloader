@@ -8,6 +8,7 @@ const queryString = require ('querystring');
 const request = require ('request');
 const ytlDownloader = require ('./YoutubeDownloader.js');
 
+let staticFiles = {};
 let app = express ();
 
 app.set ('port', process.env.PORT || 1338);
@@ -72,7 +73,7 @@ app.post ('/video', (req, res) => {
   .catch ((error) => {
     console.log (error);
   })
-  .then ((filePath) => {
+  .then ((fileName) => {
     // send to client
     // var options = {
     //   root: __dirname + '/',
@@ -92,7 +93,8 @@ app.post ('/video', (req, res) => {
     //   }
     // });
     // res.download (__dirname + '/' + filePath);
-    res.send (filePath);
+    staticFiles[fileName] = new Date ().getHours ();
+    res.send (fileName);
     // remove machnism
   })
   .catch ((error) => {
@@ -102,8 +104,8 @@ app.post ('/video', (req, res) => {
   
 });
 
-app.get ('/file/:filePath', (req, res) => {
-  let filePath = req.params.filePath;
+app.get ('/file/:fileName', (req, res) => {
+  let fileName = req.params.fileName;
   // var options = {
   //   root: __dirname + '/',
   //   dotfiles: 'deny',
@@ -122,10 +124,22 @@ app.get ('/file/:filePath', (req, res) => {
   //   }
   // });
   console.log ('get file op');
-  res.download (__dirname + '/' + filePath);
-
+  res.download (__dirname + '/' + fileName);
 });
 
 app.listen (app.get ('port'), () => {
   console.log ('Ready on port: ' + app.get ('port'));
+  setInterval (() => {
+    for (let k in staticFiles) {
+      if (new Date ().getHours () - staticFiles[k] >= 2) {
+        fs.unlink (__dirname + '/' + k, (err) => {
+          if (err) {
+            console.log (err);
+          } else {
+            console.log ('remove ' + fileName);
+          }
+        });
+      } 
+    }
+  }, 5000);
 });

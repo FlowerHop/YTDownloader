@@ -23,14 +23,25 @@
 // console.log (ytdl ('https://www.youtube.com/watch?v=MCGKpsOXliM'));
 $('#submit').click (function () {
   let url = $('#ytURL').val ();
-  console.log (url);
+  // console.log (url);
   $.ajax({
     type: "POST",
     url: 'http://localhost:1338/video',
     data: {url: url},
     success: (fileName) => {
-      let str = "<li><a href='http://localhost:1338/file/" + fileName + "'>" + fileName + "</a></li>";
+      let str = "<li><a href='http://localhost:1338/file/" + fileName + "'>" + fileName.replace (/.mp4/g, "") + " " + "<span class='glyphicon glyphicon-download'></span></a></li>";
       $('#dlList').append (str);
+      $('#dlList > li').click (function () {
+        // console.log ($(this));
+        $(this).css ("text-decoration", "line-through");
+        // console.log ($(this).children ('a'));
+        let li = $(this);
+        setTimeout (function () {
+          let a = li.children ('a');
+          a.css ('color', 'red');
+          a.removeAttr ("href");
+        }, 3000);
+      });
     },
     dataType: 'text'
   });
