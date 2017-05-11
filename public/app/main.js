@@ -26,10 +26,10 @@ $('#submit').click (function () {
   // console.log (url);
   $.ajax({
     type: "POST",
-    url: 'http://localhost:1338/video',
+    url: 'http://140.115.51.30:8204/video',
     data: {url: url},
     success: (fileName) => {
-      let str = "<li><a href='http://localhost:1338/file/" + fileName + "'>" + fileName.replace (/.mp4/g, "") + " " + "<span class='glyphicon glyphicon-download'></span></a></li>";
+      let str = "<li><a href='http://140.115.51.30:8204/file/" + fileName + "'>" + fileName.replace (/.mp4/g, "") + " " + "<span class='glyphicon glyphicon-download'></span></a></li>";
       $('#dlList').append (str);
       $('#dlList > li').click (function () {
         // console.log ($(this));
