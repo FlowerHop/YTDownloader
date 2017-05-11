@@ -12,8 +12,12 @@
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<style>
-      .container .list {
+      .list {
       	margin-top: 20px;
+      }
+
+      .container {
+        margin-top: 20px;
       }
 	</style>
 </head>
@@ -24,7 +28,7 @@
     <div class="row main">
       <div class="col-md-3"></div>
       <div class="col-md-6">
-        <form method="POST" action="http://localhost:1338/video">
+        <form method="POST" action="http://140.115.51.30:8204/video">
           <div class="form-group">
           	<label for="ytURL">Youtube URL</label>
           	<input id="ytURL" class="form-control" type="text" name="url" placeholder="URL" />
